@@ -60,6 +60,25 @@
             (send msg set-label "C#"))) ; play C#
     ))
 
+(define (determine-note-on-keyboard event)
+  (cond ;; White Keys
+    ((eqv? (send event get-key-code) #\a) (begin (play (make-tone 261.63 0.5 20000))(send msg set-label "C"))) ;; Play C
+    ((eqv? (send event get-key-code) #\s) (begin (play (make-tone 293.66 0.5 20000))(send msg set-label "D"))) ;; Play D
+    ((eqv? (send event get-key-code) #\d) (begin (play (make-tone 329.63 0.5 20000))(send msg set-label "E"))) ;; Play E
+    ((eqv? (send event get-key-code) #\f) (begin (play (make-tone 349.23 0.5 20000))(send msg set-label "F"))) ;; Play F
+    ((eqv? (send event get-key-code) #\j) (begin (play (make-tone 392.00 0.5 20000))(send msg set-label "G"))) ;; Play G
+    ((eqv? (send event get-key-code) #\k) (begin (play (make-tone 440.00 0.5 20000))(send msg set-label "A"))) ;; Play A
+    ((eqv? (send event get-key-code) #\l) (begin (play (make-tone 493.88 0.5 20000))(send msg set-label "B"))) ;; Play B
+    ((eqv? (send event get-key-code) #\;) (begin (play (make-tone 523.25 0.5 20000))(send msg set-label "C"))) ;; Play C
+        ;; Black Keys
+    ((eqv? (send event get-key-code) #\w) (begin (play (make-tone 277.18 0.5 20000))(send msg set-label "C#"))) ;; Play C#
+    ((eqv? (send event get-key-code) #\e) (begin (play (make-tone 311.13 0.5 20000))(send msg set-label "D#"))) ;; Play D#
+    ((eqv? (send event get-key-code) #\u) (begin (play (make-tone 369.99 0.5 20000))(send msg set-label "F#"))) ;; Play F#
+    ((eqv? (send event get-key-code) #\i) (begin (play (make-tone 415.30 0.5 20000))(send msg set-label "G#"))) ;; Play G#
+    ((eqv? (send event get-key-code) #\o) (begin (play (make-tone 466.16 0.5 20000))(send msg set-label "A#"))) ;; Play A#
+    ((eqv? (send event get-key-code) #\[) (begin (play (make-tone 554.37 0.5 20000))(send msg set-label "C#"))) ;; Play C#
+        ))
+
 (define (draw-keyboard dc)
   (send dc draw-line 100 0 100 500)
   (send dc draw-line 200 0 200 500)
@@ -98,7 +117,7 @@
         (determine-note-on-click event)))
     ; Define overriding method to handle keyboard events
     (define/override (on-char event)
-      (send msg set-label "Canvas keyboard"))
+      (determine-note-on-keyboard event))
 
     ; Call the superclass init, passing on all init args
     (super-new)))
